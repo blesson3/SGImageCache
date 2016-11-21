@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
   s.dependency "SGHTTPRequest/Core", '~> 1.7'
   s.dependency "AFNetworking"
   s.dependency "MGEvents", '~> 1.1'
-  s.dependency 'PromiseKit/Promise', '~> 1.5'
+  s.dependency 'PromiseKit/Promise', '~> 4.0'
 end
