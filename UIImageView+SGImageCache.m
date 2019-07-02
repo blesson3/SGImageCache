@@ -41,7 +41,7 @@
 
 - (void)setImageForURL:(NSString*)url
            placeholder:(UIImage*)placeholder
-            stillValid:(BOOL(^)())stillValid {
+            stillValid:(BOOL(^)(void))stillValid {
     [self setImageForURL:url placeholder:placeholder crossFadeDuration:0 stillValid:stillValid];
 }
 
@@ -54,26 +54,15 @@
 - (void)setImageForURL:(NSString *)url
            placeholder:(UIImage *)placeholder
      crossFadeDuration:(NSTimeInterval)duration 
-            stillValid:(BOOL(^)())stillValid {
+            stillValid:(BOOL(^)(void))stillValid {
     __weakSelf me = self;
 
     self.cachedImageURL = url;
 
     if ([SGImageCache haveImageForURL:url]) {
         UIImage *image = [SGImageCache imageForURL:url];
-        if (duration > 0 && me.window) {
-            [UIView transitionWithView:self.superview
-                              duration:duration
-                               options:UIViewAnimationOptionTransitionCrossDissolve |
-             UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionAllowUserInteraction
-                            animations:^{
-                                self.image = image;
-                                [self trigger:SGImageViewImageChanged withContext:image];
-                            } completion:nil];
-        } else {
-            self.image = image;
-            [self trigger:SGImageViewImageChanged withContext:image];
-        }
+        self.image = image;
+        [self trigger:SGImageViewImageChanged withContext:image];        
     } else {
         if (self.image != placeholder) {
             self.image = placeholder;
