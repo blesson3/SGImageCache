@@ -22,6 +22,7 @@ void backgroundDo(void(^block)(void));
 
 - (NSString *)makeCachePath;
 - (NSString *)pathForCacheKey:(NSString *)cacheKey;
+- (NSString *)pathForCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension;
 - (NSString *)pathForURL:(NSString *)url requestHeaders:(NSDictionary *)headers;
 - (NSString *)cacheKeyFor:(NSString *)url requestHeaders:(NSDictionary *)headers;
 
