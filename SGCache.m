@@ -428,6 +428,10 @@ void backgroundDo(void(^block)(void)) {
     return hash;
 }
 
+- (NSString *)pathForCacheKey:(NSString *)cacheKey {
+    return [NSString stringWithFormat:@"%@/%@", self.cachePath, cacheKey.sgCacheHash];
+}
+
 - (NSString *)pathForCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension {
     if (extension != nil) {
         return [NSString stringWithFormat:@"%@/%@.%@", self.cachePath, cacheKey.sgCacheHash, extension];
