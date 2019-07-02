@@ -58,7 +58,14 @@ void backgroundDo(void(^block)(void)) {
     if (![cacheKey isKindOfClass:NSString.class]) {
         return NO;
     }
-    return [NSFileManager.defaultManager fileExistsAtPath:[self.cache pathForCacheKey:cacheKey]];
+    return [NSFileManager.defaultManager fileExistsAtPath:[self.cache pathForCacheKey:cacheKey withExtension:nil]];
+}
+
++ (BOOL)haveFileForCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension {
+    if (![cacheKey isKindOfClass:NSString.class]) {
+        return NO;
+    }
+    return [NSFileManager.defaultManager fileExistsAtPath:[self.cache pathForCacheKey:cacheKey withExtension:nil]];
 }
 
 + (NSData *)fileForURL:(NSString *)url {
@@ -298,8 +305,19 @@ void backgroundDo(void(^block)(void)) {
     [data writeToFile:[self.cache pathForCacheKey:cacheKey] atomically:YES];
 }
 
++ (void)addData:(NSData *)data forCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension {
+    [data writeToFile:[self.cache pathForCacheKey:cacheKey withExtension:extension] atomically:YES];
+}
+
 + (void)removeDataForCacheKey:(NSString *)cacheKey {
     NSString *path = [self.cache pathForCacheKey:cacheKey];
+    if (path.length) {
+        [NSFileManager.defaultManager removeItemAtPath:path error:nil];
+    }
+}
+
++ (void)removeDataForCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension {
+    NSString *path = [self.cache pathForCacheKey:cacheKey withExtension:extension];
     if (path.length) {
         [NSFileManager.defaultManager removeItemAtPath:path error:nil];
     }
@@ -410,12 +428,17 @@ void backgroundDo(void(^block)(void)) {
     return hash;
 }
 
-- (NSString *)pathForCacheKey:(NSString *)cacheKey {
-    return [NSString stringWithFormat:@"%@/%@", self.cachePath, cacheKey.sgCacheHash];
+- (NSString *)pathForCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension {
+    if (extension != nil) {
+        return [NSString stringWithFormat:@"%@/%@.%@", self.cachePath, cacheKey.sgCacheHash, extension];
+    }
+    else {
+        return [NSString stringWithFormat:@"%@/%@", self.cachePath, cacheKey.sgCacheHash];
+    }
 }
 
 - (NSString *)pathForURL:(NSString *)url requestHeaders:(NSDictionary *)headers {
-    return [self pathForCacheKey:[self cacheKeyFor:url requestHeaders:headers]];
+    return [self pathForCacheKey:[self cacheKeyFor:url requestHeaders:headers] withExtension:nil];
 }
 
 - (NSString *)cacheKeyFor:(NSString *)url requestHeaders:(NSDictionary *)headers {

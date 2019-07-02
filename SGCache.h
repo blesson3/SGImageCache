@@ -262,6 +262,11 @@ resolve when the existing task completes.
 + (BOOL)haveFileForCacheKey:(NSString *)cacheKey;
 
 /**
+* Returns YES if the file is found in the cache.
+*/
++ (BOOL)haveFileForCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension;
+
+/**
 * Retrieves a file from cache. Returns nil if the file is not found in
 * the cache.
 *
@@ -307,7 +312,10 @@ resolve when the existing task completes.
 + (SGImageCacheLogging)logging;
 
 + (void)addData:(NSData *)data forCacheKey:(NSString *)cacheKey;
++ (void)addData:(NSData *)data forCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension;
+
 + (void)removeDataForCacheKey:(NSString *)cacheKey;
++ (void)removeDataForCacheKey:(NSString *)cacheKey withExtension:(NSString *)extension;
 
 @end
 
