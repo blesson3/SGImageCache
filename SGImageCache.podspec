@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SGImageCache"
-  s.version      = "3.0.1"
+  s.version      = "3.0.2"
   s.summary      = "A lightweight iOS image cache."
   s.homepage     = "https://github.com/seatgeek/SGImageCache"
   s.license      = { :type => "BSD", :file => "LICENSE" }
