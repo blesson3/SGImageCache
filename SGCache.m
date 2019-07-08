@@ -65,7 +65,7 @@ void backgroundDo(void(^block)(void)) {
     if (![cacheKey isKindOfClass:NSString.class]) {
         return NO;
     }
-    return [NSFileManager.defaultManager fileExistsAtPath:[self.cache pathForCacheKey:cacheKey withExtension:nil]];
+    return [NSFileManager.defaultManager fileExistsAtPath:[self.cache pathForCacheKey:cacheKey withExtension:extension]];
 }
 
 + (NSData *)fileForURL:(NSString *)url {
